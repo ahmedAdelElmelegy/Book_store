@@ -1,5 +1,6 @@
 import 'package:book_app/core/utils/ApiServices.dart';
 import 'package:book_app/core/utils/Go_router.dart';
+import 'package:book_app/core/utils/ServicesLocator.dart';
 import 'package:book_app/core/utils/Style.dart';
 import 'package:book_app/features/Computer/data/Repo/ComputerRepoImp.dart';
 import 'package:book_app/features/Computer/presentation/manager/fetch_programing_book/featch_programing_books_cubit.dart';
@@ -18,6 +19,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
   runApp(const BookApp());
+  getset();
 }
 
 class BookApp extends StatelessWidget {
@@ -34,45 +36,23 @@ class BookApp extends StatelessWidget {
           create: (context) => ProfileCubit()..getTheme(),
         ),
         BlocProvider(
-            create: (context) => FeaturesBookDetailsCubit(
-                  HomeRepoImpl(
-                    apiServices: ApiServices(
-                      Dio(),
-                    ),
-                  ),
-                )..fetchFeaturesBooks()),
+            create: (context) =>
+                FeaturesBookDetailsCubit(getIt.get<HomeRepoImpl>())
+                  ..fetchFeaturesBooks()),
         BlocProvider(
-            create: (context) => NewsetBookDetilesCubit(
-                  HomeRepoImpl(
-                    apiServices: ApiServices(
-                      Dio(),
-                    ),
-                  ),
-                )..fetchNewsetBooks()),
+            create: (context) =>
+                NewsetBookDetilesCubit(getIt.get<HomeRepoImpl>())
+                  ..fetchNewsetBooks()),
         BlocProvider(
-            create: (context) => ScienceBookCubit(
-                  ScienceRepoimp(
-                    apiServices: ApiServices(
-                      Dio(),
-                    ),
-                  ),
-                )..fetchSciencebook()),
+            create: (context) => ScienceBookCubit(getIt.get<ScienceRepoimp>())
+              ..fetchSciencebook()),
         BlocProvider(
-            create: (context) => FeatchSportBookCubit(
-                  SportRepoImp(
-                    apiServices: ApiServices(
-                      Dio(),
-                    ),
-                  ),
-                )..fetchSportbooks()),
+            create: (context) => FeatchSportBookCubit(getIt.get<SportRepoImp>())
+              ..fetchSportbooks()),
         BlocProvider(
-            create: (context) => FeatchProgramingBooksCubit(
-                  ComputerRepoImp(
-                    apiServices: ApiServices(
-                      Dio(),
-                    ),
-                  ),
-                )..fetchComputerBooks()),
+            create: (context) =>
+                FeatchProgramingBooksCubit(getIt.get<ComputerRepoImp>())
+                  ..fetchComputerBooks()),
       ],
       child: BlocBuilder<ProfileCubit, ProfileState>(
         builder: (context, state) {
